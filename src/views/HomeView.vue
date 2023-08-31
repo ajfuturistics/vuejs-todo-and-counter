@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from "vue";
+import { ref, watch, computed } from "vue";
 import { uid } from "uid";
 import { Icon } from "@iconify/vue";
 import TodoCreator from "../components/TodoCreator.vue";
@@ -14,6 +14,10 @@ watch(
   },
   { deep: true }
 );
+
+const todoCompleted = computed(() => {
+  return todoList.value.every((todo) => todo.isCompleted);
+});
 
 const fetchTodoList = () => {
   const savedTodoList = JSON.parse(localStorage.getItem("todoList"));
@@ -52,12 +56,20 @@ const updateTodo = (updatedVal, todoIndex) => {
 const deleteTodo = (todoId) => {
   todoList.value = todoList.value.filter((item) => item.id !== todoId);
 };
+
+const clearAll = () => {
+  todoList.value = [];
+};
 </script>
 
 <template>
   <main>
     <h2>Create Todo</h2>
     <TodoCreator @create-todo="createTodo" />
+
+    <div v-if="todoList.length > 0" class="clear-btn-container">
+      <button @click="clearAll()">Clear All</button>
+    </div>
 
     <ul v-if="todoList.length > 0" class="todo-list">
       <TodoItem
@@ -76,6 +88,11 @@ const deleteTodo = (todoId) => {
       <Icon icon="noto-v1:sad-but-relieved-face" />
       <span>You have no todo's to complete! Add one!</span>
     </p>
+
+    <p v-if="todoCompleted && todoList.length > 0" class="todos-msg">
+      <Icon icon="noto-v1:party-popper" />
+      <span>You have completed all your todos!</span>
+    </p>
   </main>
 </template>
 
@@ -91,6 +108,18 @@ main {
   h2 {
     margin-bottom: 16px;
     text-align: center;
+  }
+
+  .clear-btn-container {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    button {
+      padding: 8px 16px;
+      border: none;
+    }
   }
 
   .todo-list {

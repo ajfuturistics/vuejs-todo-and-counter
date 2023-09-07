@@ -26,13 +26,13 @@ export default {
   <section>
     <h1>Hello World</h1>
 
-    <p v-if="count === 0">counter is zero</p>
+    <p v-if="count === 0">Counter is zero</p>
     <p v-else>Counter: {{ count }}</p>
 
     <div>
-      <button @click="increment()">increment</button>
-      <button @click="decrement()">decrement</button>
-      <button @click="reset()">reset</button>
+      <button id="increment" @click="increment()">increment</button>
+      <button id="decrement" @click="decrement()">decrement</button>
+      <button id="reset" @click="reset()">reset</button>
     </div>
   </section>
 </template>

@@ -12,6 +12,7 @@ import { RouterLink } from "vue-router";
       <ul class="nav-routes">
         <RouterLink to="/">Todos</RouterLink>
         <RouterLink to="/counter">Counter</RouterLink>
+        <RouterLink to="/random">Random</RouterLink>
       </ul>
     </nav>
   </header>
